@@ -78,6 +78,13 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 a.hero:hover .hero-note,a.hero:focus-visible .hero-note{background:rgba(14,20,24,.9)}
 /* free preview (TRIAL): paid values become this link; the bar at the top says what the visitor is looking at */
 .lock{display:inline-flex;align-items:center;gap:4px;color:var(--prem);background:var(--prem-bg);border-radius:8px;padding:2px 8px;font-weight:800;font-size:.95em;text-decoration:none;white-space:normal;max-width:100%;line-height:1.4}.lock:hover,.lock:focus-visible{text-decoration:underline}
+.lock.sip{color:var(--accent);background:var(--ok-bg)}
+.sip-lock{display:flex;flex-direction:column;gap:6px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface)}.sip-lock b{font-size:1rem}.sip-lock span{color:var(--muted);font-size:.9rem;line-height:1.4}
+.sip-body{display:flex;flex-direction:column;gap:10px;margin-top:8px}.sip-h{font-size:.82rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.sip-in{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sip-in label{display:flex;flex-direction:column;gap:3px;font-size:.82rem;color:var(--muted);font-weight:600;min-width:0}.sip-in input{width:100%;min-width:0;box-sizing:border-box;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);font:inherit;font-size:1rem;font-variant-numeric:tabular-nums}
+.sip-src{color:var(--muted);font-size:.85rem}
+.sip-out div{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 2px;border-bottom:1px solid var(--line)}.sip-out div span{color:var(--muted);font-size:.92rem;min-width:0}.sip-out b{white-space:nowrap;font-variant-numeric:tabular-nums}.sip-out b.neg{color:var(--red)}
+.sip-disc{color:var(--muted);font-size:.82rem;line-height:1.45}
 .trial-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--prem-bg);border:1px solid var(--prem);border-radius:14px;padding:10px 14px;font-weight:600;line-height:1.4}.trial-bar span{flex:1 1 200px;min-width:0}.trial-bar a.btn{background:var(--prem);border-color:var(--prem);color:#1b1206;font-weight:800;min-height:44px;display:inline-flex;align-items:center}
 html.trial #bmvFld,html.trial #cyFld,html.trial #cyNote{display:none!important}html.trial #sort option[value*=bmv]{display:none}
 .head{display:flex;align-items:flex-start;gap:10px}.head .num{flex:none;min-width:34px;height:34px;padding:0 8px;border-radius:10px;background:var(--accent);color:var(--accent-fg);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700}.head .addr{flex:1;min-width:0;padding-top:3px}.kindt{font-size:.98rem;font-weight:700;color:var(--fg);min-width:0;overflow-wrap:anywhere}
@@ -253,7 +260,7 @@ body{padding-block-end:100px}
 }
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=IBM+Plex+Sans:wght@400;600;700&display=swap">
-<script>/* apply the client's saved light / dark choice, text size and language before first paint (no flash); KP = this site's settings prefix */var KP='khairul.',TRIAL=false,LANDING='premium/';if(TRIAL)document.documentElement.classList.add('trial');try{var _t=localStorage.getItem('khairul.theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _s=localStorage.getItem(KP+'size');if(_s==='l'||_s==='xl')document.documentElement.setAttribute('data-size',_s);if(localStorage.getItem(KP+'lang')==='ms')document.documentElement.lang='ms'}catch(e){}</script>
+<script>/* apply the client's saved light / dark choice, text size and language before first paint (no flash); KP = this site's settings prefix */var KP='khairul.',TRIAL=false,LANDING='premium/',SIP_URL='https://client.lelongbidgroup.com/premium/#sip',TIER='premium';if(TRIAL)document.documentElement.classList.add('trial');try{var _t=localStorage.getItem('khairul.theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _s=localStorage.getItem(KP+'size');if(_s==='l'||_s==='xl')document.documentElement.setAttribute('data-size',_s);if(localStorage.getItem(KP+'lang')==='ms')document.documentElement.lang='ms'}catch(e){}</script>
 </head>
 <body>
 <div class="gate" id="gate" hidden><form class="box" id="gateForm">
@@ -334,7 +341,7 @@ body{padding-block-end:100px}
 </div>
 
 <script>
-const FIELDS=["no", "address", "state", "district", "maps", "type", "bmv", "price", "market_value", "tenure", "land", "built_up", "auction_date", "auction_time", "auction_count", "restrictions", "bank", "laca","category","completion_year","id","_cat","first_seen","bedroom","bathroom","carpark","outcome","sold_price","kind","history"];
+const FIELDS=["no", "address", "state", "district", "maps", "type", "bmv", "price", "market_value", "tenure", "land", "built_up", "auction_date", "auction_time", "auction_count", "restrictions", "bank", "laca","category","completion_year","id","_cat","first_seen","bedroom","bathroom","carpark","outcome","sold_price","kind","history","borrower","rental"];
 const G=id=>document.getElementById(id);const gtrack=(n,p)=>{try{if(window.gtag)gtag('event',n,p||{})}catch(e){}};
 const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 // The agent this page belongs to: the call / WhatsApp buttons, the pre-filled messages and the help texts take the name and number from here.
@@ -388,7 +395,7 @@ qf_t:'Quick Find',qf_step:'Question {i} of 3',qf_q1:'Where do you want to buy?',
 qf_any1:'Any state',qf_any2:'Any type',qf_any3:'Any budget',qf_b0:'Up to RM 200,000',qf_b1:'RM 200,000 - 400,000',qf_b2:'RM 400,000 - 700,000',qf_b3:'RM 700,000 and above',
 n_units:'{n} units',n_units1:'{n} unit',fav_count1:'My list: {n} unit',showing1:'Showing {n} unit',show_n1:'Show {n} unit',more_n:'Show more ({n} more)',back:'Back',cancel:'Cancel',showing:'Showing {n} units',
 hero_note:'Tap to see the location on Google Maps',hero_cap:'Illustration only, not the actual property',
-lock:'Unlock Premium RM50 only',lock_plain:'Premium members only',bmv_lock:'XX% below market value',hero_lock:'Unlock Premium RM50 only to see the exact location',trial_msg:'You are viewing the free preview. Full details are for premium members.',
+lock:'Unlock Premium RM50 only',lock_plain:'Premium members only',borrower:'Borrower',lock2:'Unlock Serious Investor Plan RM99',lock2_plain:'Serious Investor Plan members only',sip_t:'Serious Investor analysis',sip_sub:'ROI, rental, projected selling price with RPGT and refinancing. Edit any assumption and the figures update.',sip_lock_sub:'ROI, rental rate, projected selling price after 3 or 5 years with RPGT, projected rental (basic furnished) and the refinancing amount, for every unit.',sip_in:'Assumptions',sip_mv:'Market value (RM)',sip_p:'Auction price (RM)',sip_rent:'Rental / month (RM)',sip_furn:'Furnished uplift (%)',sip_grow:'Price growth (% / year)',sip_ltv:'Loan-to-value (%)',sip_yrs:'Years held',sip_rpgt:'RPGT rate (%)',sip_src_bn:'Rental: BidNow average market rental.',sip_src_est:'Rental: estimate, 4% of the market value a year.',sip_o1:'Gross rental yield (on auction price)',sip_o2:'Projected rental, basic furnished',sip_o3:'Projected selling price after {n} yrs',sip_o4:'Gain over auction price',sip_o5:'RPGT at {r}% (after exemption)',sip_o6:'Net gain after RPGT',sip_o7:'Total return in {n} yrs (net gain + basic rent)',sip_o8:'Refinancing eligible ({l}% of market value)',sip_o9:'Loan above auction price',sip_yr:'/yr',sip_mo:'/mo',sip_disc:'Estimates from the assumptions above, before loan interest, legal fees, maintenance and future tax changes. RPGT uses the Malaysian citizen schedule (30% if sold within 3 years, 20% in the 4th year, 15% in the 5th, 0% from the 6th) with the RM10,000 or 10% exemption. Not financial advice: confirm with your banker, valuer and tax adviser.',bmv_lock:'XX% below market value',hero_lock:'Unlock Premium RM50 only to see the exact location',trial_msg:'You are viewing the free preview. Full details are for premium members.',
 guide_t:'How to use this page',got_it:'Got it',
 guide:'<ol class="steps">'
 +'<li><span class="si" aria-hidden="true">☀️</span><div><strong>Light or dark screen</strong>Tap the <b>☀️ / 🌙</b> button at the top right of the page to switch between a bright screen and a dark screen. Choose the one that is easier on your eyes.<button class="btn g-theme" type="button" data-theme-toggle>☀️ / 🌙</button></div></li>'
@@ -461,7 +468,7 @@ qf_t:'Carian Mudah',qf_step:'Soalan {i} daripada 3',qf_q1:'Di mana anda mahu bel
 qf_any1:'Mana-mana negeri',qf_any2:'Mana-mana jenis',qf_any3:'Mana-mana bajet',qf_b0:'Sehingga RM 200,000',qf_b1:'RM 200,000 - 400,000',qf_b2:'RM 400,000 - 700,000',qf_b3:'RM 700,000 ke atas',
 n_units:'{n} unit',n_units1:'{n} unit',fav_count1:'Senarai saya: {n} unit',showing1:'Menunjukkan {n} unit',show_n1:'Tunjuk {n} unit',more_n:'Tunjuk lagi ({n} lagi)',back:'Kembali',cancel:'Batal',showing:'Menunjukkan {n} unit',
 hero_note:'Tekan untuk lihat lokasi di Google Maps',hero_cap:'Gambar hiasan, bukan hartanah sebenar',
-lock:'Buka Premium RM50 sahaja',lock_plain:'Ahli premium sahaja',bmv_lock:'XX% bawah nilai pasaran',hero_lock:'Buka Premium RM50 sahaja untuk lokasi tepat',trial_msg:'Anda melihat pratonton percuma. Butiran penuh untuk ahli premium.',
+lock:'Buka Premium RM50 sahaja',lock_plain:'Ahli premium sahaja',borrower:'Peminjam',lock2:'Buka Serious Investor Plan RM99',lock2_plain:'Ahli Serious Investor Plan sahaja',sip_t:'Analisis Serious Investor',sip_sub:'ROI, sewa, unjuran harga jualan dengan RPGT dan pembiayaan semula. Ubah mana-mana andaian dan angka dikemas kini.',sip_lock_sub:'ROI, kadar sewa, unjuran harga jualan selepas 3 atau 5 tahun dengan RPGT, unjuran sewa (berperabot asas) dan jumlah pembiayaan semula, untuk setiap unit.',sip_in:'Andaian',sip_mv:'Nilai pasaran (RM)',sip_p:'Harga lelong (RM)',sip_rent:'Sewa / bulan (RM)',sip_furn:'Tambahan berperabot (%)',sip_grow:'Kenaikan harga (% / tahun)',sip_ltv:'Nisbah pinjaman (%)',sip_yrs:'Tahun dipegang',sip_rpgt:'Kadar RPGT (%)',sip_src_bn:'Sewa: purata sewa pasaran BidNow.',sip_src_est:'Sewa: anggaran, 4% nilai pasaran setahun.',sip_o1:'Pulangan sewa kasar (atas harga lelong)',sip_o2:'Unjuran sewa, berperabot asas',sip_o3:'Unjuran harga jualan selepas {n} tahun',sip_o4:'Untung atas harga lelong',sip_o5:'RPGT {r}% (selepas pengecualian)',sip_o6:'Untung bersih selepas RPGT',sip_o7:'Jumlah pulangan {n} tahun (untung bersih + sewa asas)',sip_o8:'Layak pembiayaan semula ({l}% nilai pasaran)',sip_o9:'Pinjaman melebihi harga lelong',sip_yr:'/thn',sip_mo:'/bln',sip_disc:'Anggaran daripada andaian di atas, sebelum faedah pinjaman, yuran guaman, penyelenggaraan dan perubahan cukai. RPGT ikut jadual warganegara Malaysia (30% jika dijual dalam 3 tahun, 20% tahun ke-4, 15% tahun ke-5, 0% dari tahun ke-6) dengan pengecualian RM10,000 atau 10%. Bukan nasihat kewangan: sahkan dengan pegawai bank, penilai dan penasihat cukai anda.',bmv_lock:'XX% bawah nilai pasaran',hero_lock:'Buka Premium RM50 sahaja untuk lokasi tepat',trial_msg:'Anda melihat pratonton percuma. Butiran penuh untuk ahli premium.',
 guide_t:'Cara guna laman ini',got_it:'Faham',
 guide:'<ol class="steps">'
 +'<li><span class="si" aria-hidden="true">☀️</span><div><strong>Skrin cerah atau gelap</strong>Tekan butang <b>☀️ / 🌙</b> di penjuru kanan atas laman untuk tukar antara skrin cerah dan skrin gelap. Pilih yang paling selesa untuk mata anda.<button class="btn g-theme" type="button" data-theme-toggle>☀️ / 🌙</button></div></li>'
@@ -558,9 +565,13 @@ const track=gtrack;
 const BASE=location.origin+location.pathname;
 const ok=v=>v&&v!=='-'&&v!=='N/A';
 const locked=v=>TRIAL&&v==='LOCKED';   // trial/data.json puts LOCKED where the paid value was
+const locked2=v=>v==='LOCKED2';   // trial/data.json: a Serious Investor Plan value; on the live site the plan is the member's TIER
+const canSip=()=>!TRIAL&&TIER==='sip';
+const sipUrl=()=>TRIAL?LANDING+'#sip':SIP_URL;
 const lockLink=()=>'<a class="lock" href="'+esc(LANDING)+'">\uD83D\uDD13 '+tx('lock')+'</a>';
-const pv=v=>locked(v)?tx('lock_plain'):ok(v)?String(v):'N/A';   // plain text for messages (WhatsApp, calendar, share)
-const dash=v=>locked(v)?lockLink():ok(v)?esc(v):'N/A';
+const lockLink2=()=>'<a class="lock sip" href="'+esc(sipUrl())+'">\uD83D\uDD13 '+tx('lock2')+'</a>';
+const pv=v=>locked(v)?tx('lock_plain'):locked2(v)?tx('lock2_plain'):ok(v)?String(v):'N/A';   // plain text for messages (WhatsApp, calendar, share)
+const dash=v=>locked(v)?lockLink():locked2(v)?lockLink2():ok(v)?esc(v):'N/A';
 const qb=k=>'<button type="button" class="q" data-h="'+k+'" aria-label="'+esc(tx('what'))+'">?</button>';
 const typeName=r=>GENT[r[5]]?r[28]:r[5];
 function toast(m){const el=$('toast');el.textContent=m;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2500)}
@@ -659,6 +670,31 @@ function histHtml(r){const h=Array.isArray(r[29])?r[29].filter(x=>Array.isArray(
  const rows=[['now',r[12],r[7]]].concat(h.map(x=>['',x[0],x[1]]));
  return '<div style="grid-column:1/-1"><details class="hist"><summary>'+tx('hist')+' <span class="hist-n">'+h.length+'</span></summary><div class="hist-sub">'+tx('hist_sub')+'</div><table>'
   +rows.map(x=>'<tr'+(x[0]?' class="now"':'')+'>'+(!x[0]&&TRIAL?'<td colspan="2">'+esc(dow(x[1]))+', '+lockLink()+'</td>':'<td>'+esc(fmtDay(x[1]))+(x[0]?' · '+tx('hist_now'):'')+'</td><td>'+(x[0]?dash(x[2]):esc(rm(x[2])))+'</td>')+'</tr>').join('')+'</table></details></div>'}
+// Serious Investor Plan (25/10/2026, RM99): ROI, rental, projected selling price with RPGT, refinancing; every assumption editable.
+// Premium members and the free preview see the locked box instead. Defaults: rental 4%/yr of market value when BidNow has none,
+// furnished +15%, growth 3%/yr, loan 90% (70% for shops, factories, land), 5 years, RPGT by the citizen schedule.
+const SIP={yield:.04,furn:15,grow:3,ltv:90,ltvCom:70,yrs:5};
+const rpgtRate=y=>y<=3?30:y===4?20:y===5?15:0;
+const rmF=v=>'RM '+Math.round(v).toLocaleString('en-US');
+const pct=v=>(Math.round(v*10)/10).toLocaleString('en-US')+'%';
+function sipHtml(r){
+ if(!canSip())return '<div style="grid-column:1/-1" class="sip-lock"><b>'+tx('sip_t')+'</b><span>'+tx('sip_lock_sub')+'</span>'+lockLink2()+'</div>';
+ const mv=suspect(r)?0:num(r[8]),p=num(r[7]),rr=locked2(r[31])?0:num(r[31]),bn=rr>0,rent=bn?Math.round(rr):Math.round(mv*SIP.yield/12);
+ const com=r[21]===CATS[3]||r[21]===CATS[4]||r[21]===CATS[6];
+ const v={mv,p,rent,furn:SIP.furn,grow:SIP.grow,ltv:com?SIP.ltvCom:SIP.ltv,yrs:SIP.yrs,rpgt:rpgtRate(SIP.yrs)};
+ const inp=(k,step)=>'<label><span>'+tx('sip_'+k)+'</span><input type="number" inputmode="decimal" min="0" step="'+(step||1)+'" data-k="'+k+'" value="'+v[k]+'"></label>';
+ return '<div style="grid-column:1/-1"><details class="hist sip"><summary>'+tx('sip_t')+' <span class="hist-n">SIP</span></summary><div class="hist-sub">'+tx('sip_sub')+'</div><div class="sip-body"><div class="sip-h">'+tx('sip_in')+'</div><div class="sip-in">'
+  +inp('mv',1000)+inp('p',1000)+inp('rent',50)+inp('furn')+inp('grow',.5)+inp('ltv')+inp('yrs')+inp('rpgt')+'</div><div class="sip-src">'+tx(bn?'sip_src_bn':'sip_src_est')+'</div><div class="sip-out">'+sipOut(v)+'</div><div class="sip-disc">'+tx('sip_disc')+'</div></div></details></div>'}
+function sipOut(v){const rent=v.rent,rentF=rent*(1+v.furn/100),y=Math.max(1,Math.ceil(v.yrs)),hasMv=v.mv>0,hasP=v.p>0;   // no market value / price known: those rows say N/A instead of nonsense
+ const proj=v.mv*Math.pow(1+v.grow/100,y),gain=proj-v.p,ex=Math.max(10000,gain*.1),tax=gain>0?Math.max(0,gain-ex)*v.rpgt/100:0,net=gain-tax,tot=net+rent*12*y,refi=v.mv*v.ltv/100,over=refi-v.p;
+ const sg=x=>(x<0?'-':'')+rmF(Math.abs(x)),NA='N/A';
+ const row=(k,val,neg,o)=>'<div><span>'+tx(k,o||{})+'</span><b'+(neg?' class="neg"':'')+'>'+val+'</b></div>';
+ const yv=hasP?rent*12/v.p*100:0,yf=hasP?rentF*12/v.p*100:0,tr=hasP?tot/v.p*100:0,both=hasMv&&hasP;
+ return row('sip_o1',(hasP?pct(yv)+' · ':'')+rmF(rent)+tx('sip_mo'))+row('sip_o2',rmF(rentF)+tx('sip_mo')+(hasP?' · '+pct(yf):''))+row('sip_o3',hasMv?rmF(proj):NA,false,{n:y})+row('sip_o4',both?sg(gain):NA,both&&gain<0)
+  +row('sip_o5',both?rmF(tax):NA,false,{r:v.rpgt})+row('sip_o6',both?sg(net):NA,both&&net<0)+row('sip_o7',both?pct(tr)+' · '+pct(tr/y)+tx('sip_yr'):NA,both&&tr<0,{n:y})+row('sip_o8',hasMv?rmF(refi):NA,false,{l:v.ltv})+row('sip_o9',both?(over<0?'':'+')+sg(over):NA,both&&over<0)}
+function sipRecalc(d,inp){const v={};d.querySelectorAll('input[data-k]').forEach(i=>{v[i.dataset.k]=parseFloat(i.value)||0});
+ if(inp&&inp.dataset.k==='yrs'){const r=d.querySelector('input[data-k=rpgt]');r.value=rpgtRate(Math.max(1,Math.ceil(v.yrs)));v.rpgt=+r.value}
+ d.querySelector('.sip-out').innerHTML=sipOut(v)}
 const unsoldNote=r=>{const p=num(r[7]);const np=p>0?'RM '+Math.round(p*0.9).toLocaleString('en-US'):'';
  return '<div class="unsold-note"><b>'+tx('unsold_t')+'</b><span>'+tx('unsold_p')+(np?tx('unsold_np',{p:'<b>'+np+'</b>'}):'')+'</span></div>'};
 const tagText=(r,st)=>st==='sold'?tx('tag_sold')+(ok(r[27])?' · '+dash(r[27]):''):st==='calloff'?tx('tag_calloff'):st==='unsold'?tx('tag_unsold'):tx('tag_expired');
@@ -751,7 +787,7 @@ function card(r,i){
  +'<div class="when"><span class="dlab">'+tx('date')+'</span><span class="dtx"><b>'+esc(fmtDay(r[12]))+'</b><span class="tm">'+(ok(r[13])?'<span>'+esc(r[13])+'</span>':'')+cdChip(r[12])+'</span></span></div>'
  +(cn||cal?'<div class="when2">'+(cn?'<span class="cnt">'+cn+qb('count')+'</span>':'<span></span>')+(cal?'<a class="calbtn" href="'+esc(cal)+'" target="_blank" rel="noopener">'+tx('cal_add')+'</a>':'')+'</div>':'')
  +chips(r)
- +(simple?'':'<dl class="more"><div><dt>'+tx('district')+'</dt><dd>'+dash(r[3])+'</dd></div><div><dt>'+tx('state')+'</dt><dd>'+dash(r[2])+'</dd></div><div style="grid-column:1/-1"><dt>'+tx('bank')+'</dt><dd>'+dash(r[16])+'</dd></div>'+histHtml(r)+'</dl>')
+ +(simple?'':'<dl class="more"><div><dt>'+tx('district')+'</dt><dd>'+dash(r[3])+'</dd></div><div><dt>'+tx('state')+'</dt><dd>'+dash(r[2])+'</dd></div><div style="grid-column:1/-1"><dt>'+tx('bank')+'</dt><dd>'+dash(r[16])+'</dd></div><div style="grid-column:1/-1"><dt>'+tx('borrower')+'</dt><dd>'+(TRIAL&&ok(r[30])?lockLink():dash(r[30]))+'</dd></div>'+histHtml(r)+sipHtml(r)+'</dl>')
  +'<a class="wa-unit" href="'+esc(waUnit(r,st))+'" target="_blank" rel="noopener">'+tx(st==='sold'||st==='calloff'?'wa_btn_end':'wa_btn')+'</a>'
  +'<div class="acts">'+(/^https:\/\//i.test(r[4]||'')?'<a class="map" href="'+esc(satUrl(r[4]))+'" target="_blank" rel="noopener"><svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#e53935"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg>Google Maps</a>':'')
  +'<button type="button" class="fav" data-id="'+esc(r[20])+'" aria-pressed="'+fav+'">'+tx(fav?'saved':'save')+'</button>'
@@ -829,6 +865,7 @@ $('openFab').onclick=$('openTop').onclick=()=>sheet(true);
 $('close').onclick=$('apply').onclick=$('scrim').onclick=()=>sheet(false);
 $('negeri').onchange=()=>{daerahOpts();render()};
 $('q').addEventListener('input',()=>{favMode=false;clearShared()});
+$('list').addEventListener('input',e=>{const d=e.target.closest('details.sip');if(d&&e.target.matches('input[data-k]'))sipRecalc(d,e.target)});
 ['q','jenis','cat','sort'].forEach(k=>$(k).addEventListener('input',render));
 $('cat').addEventListener('input',()=>cyFlag(false));
 ['pMin','pMax'].forEach(id=>$(id).addEventListener('input',e=>{const el=e.target;el.value=fmtNum(el.value);track('filter_price',{from:priceLo(),to:priceHi()});render()}));
@@ -930,11 +967,11 @@ async function access(){
  if(!ACCESS||!ACCESS.codes||!Object.keys(ACCESS.codes).length){openGate('');gtrack('access_gate',{});return false}   // no codes published = locked (nothing can open the listings)
  const code=LINK_CODE;let stored='';try{stored=localStorage.getItem('khairul.code')||''}catch(e){}
  let expired=false;
- for(const c of [code,stored]){if(!c)continue;const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';try{gtag('set','user_properties',{client:CLIENT})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}gtrack('access_ok',{client:CLIENT});return true}
+ for(const c of [code,stored]){if(!c)continue;const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';TIER=e.tier==='sip'?'sip':'premium';try{gtag('set','user_properties',{client:CLIENT,tier:TIER})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}gtrack('access_ok',{client:CLIENT});return true}
   if(e==='expired')expired=true}   // an expired link code still lets a valid saved code in
  if(expired){openGate('gate_exp');renewMode();return false}
  openGate(code?'gate_invalid':'');gtrack('access_gate',{});return false}
-G('gateForm').addEventListener('submit',async ev=>{ev.preventDefault();const c=G('gateCode').value;gateMsg('gate_checking');const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';try{gtag('set','user_properties',{client:CLIENT})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}G('gate').hidden=true;gateMsg('');gtrack('access_ok',{client:CLIENT});start()}else{if(e==='expired')renewMode();gateMsg(e==='expired'?'gate_exp2':'gate_bad')}});
+G('gateForm').addEventListener('submit',async ev=>{ev.preventDefault();const c=G('gateCode').value;gateMsg('gate_checking');const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';TIER=e.tier==='sip'?'sip':'premium';try{gtag('set','user_properties',{client:CLIENT,tier:TIER})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}G('gate').hidden=true;gateMsg('');gtrack('access_ok',{client:CLIENT});start()}else{if(e==='expired')renewMode();gateMsg(e==='expired'?'gate_exp2':'gate_bad')}});
 // access.json and data.json from two different publishes (a CDN copy is a few minutes old): read access.json fresh and unwrap again
 async function rekey(){try{ACCESS=await fetch('https://lelongbidgroup.com/khairul/access.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null)}catch(e){ACCESS=null}
  let c='';try{c=localStorage.getItem('khairul.code')||''}catch(e){}const e=c?await checkCode(c):null;return !!e&&e!=='expired'}
