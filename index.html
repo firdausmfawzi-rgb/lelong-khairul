@@ -583,7 +583,8 @@ const IMG='https://lelongbidgroup.com/img/';   // the pictures live in the main 
 const ART={[CATS[0]]:'condo',[CATS[1]]:'terrace',[CATS[2]]:'bungalow',[CATS[3]]:'factory',[CATS[4]]:'shop',[CATS[5]]:'flat',[CATS[6]]:'land'};   // picture of the property type at the top of the card
 const artOf=r=>r[28]==='Flat'?'flat':ART[r[21]]||'';
 const PIN='<svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
-function hero(r){const k=artOf(r);if(!k)return '';const m=/^https:\/\//i.test(r[4]||'')?r[4]:'';const img='<img src="'+IMG+k+'.webp" width="960" height="540" alt="" loading="lazy" decoding="async">';
+const satUrl=u=>{const m=/[?&]query=([^&#]+)/.exec(u||'');return m?'https://maps.google.com/maps?q='+m[1]+'&t=k':u};   // same place, satellite layer on
+function hero(r){const k=artOf(r);if(!k)return '';const m=/^https:\/\//i.test(r[4]||'')?satUrl(r[4]):'';const img='<img src="'+IMG+k+'.webp" width="960" height="540" alt="" loading="lazy" decoding="async">';
  const cap='<span class="hero-cap">'+tx('hero_cap')+'</span>';
  return m?'<a class="hero" href="'+esc(m)+'" target="_blank" rel="noopener" aria-label="'+esc(tx('hero_note'))+'">'+img+'<span class="hero-note">'+PIN+tx('hero_note')+'</span>'+cap+'</a>':TRIAL?'<a class="hero" href="'+esc(LANDING)+'" aria-label="'+esc(tx('hero_lock'))+'">'+img+'<span class="hero-note">\uD83D\uDD13 '+tx('hero_lock')+'</span>'+cap+'</a>':'<div class="hero">'+img+cap+'</div>'}
 function catOf(r){if(r[18]&&r[18]!=='-')return r[18];const s=String(r[5]||'').toLowerCase();
@@ -752,7 +753,7 @@ function card(r,i){
  +chips(r)
  +(simple?'':'<dl class="more"><div><dt>'+tx('district')+'</dt><dd>'+dash(r[3])+'</dd></div><div><dt>'+tx('state')+'</dt><dd>'+dash(r[2])+'</dd></div><div style="grid-column:1/-1"><dt>'+tx('bank')+'</dt><dd>'+dash(r[16])+'</dd></div>'+histHtml(r)+'</dl>')
  +'<a class="wa-unit" href="'+esc(waUnit(r,st))+'" target="_blank" rel="noopener">'+tx(st==='sold'||st==='calloff'?'wa_btn_end':'wa_btn')+'</a>'
- +'<div class="acts">'+(/^https:\/\//i.test(r[4]||'')?'<a class="map" href="'+esc(r[4])+'" target="_blank" rel="noopener"><svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#e53935"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg>Google Maps</a>':'')
+ +'<div class="acts">'+(/^https:\/\//i.test(r[4]||'')?'<a class="map" href="'+esc(satUrl(r[4]))+'" target="_blank" rel="noopener"><svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7z" fill="#e53935"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg>Google Maps</a>':'')
  +'<button type="button" class="fav" data-id="'+esc(r[20])+'" aria-pressed="'+fav+'">'+tx(fav?'saved':'save')+'</button>'
  +(simple?'':'<button type="button" class="tg">'+tx('more_info')+'</button><button type="button" class="sh" data-id="'+esc(r[20])+'" aria-label="'+esc(tx('share'))+'">'+tx('share')+'</button>')+'</div></article>';
 }
