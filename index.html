@@ -99,6 +99,7 @@ html.trial #cyNote,html.trial #bmvSeg,html.trial #cyBtn,html.trial #cyPanel{disp
 .addr{font-size:1.15rem;font-weight:700;line-height:1.4;overflow-wrap:anywhere}
 .card.simple .addr{font-size:1.25rem}.card.simple .price{font-size:2rem}
 .dims{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.posrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}.posbtn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 12px;border:1px solid var(--accent);border-radius:10px;background:var(--surface);color:var(--accent);font-weight:700;text-decoration:none}.posbtn:hover,.posbtn:focus-visible{background:var(--ok-bg)}.pos-lbl{font-weight:700;color:var(--muted)}
 .dims.d3{grid-template-columns:repeat(3,1fr);margin-top:8px}.dims.d3>div{padding:8px 8px}.dims>div{background:var(--bg);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .dims span{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:.88rem;font-weight:600;color:var(--muted)}
 .dims b{font-size:1.1rem;overflow-wrap:anywhere}
@@ -384,7 +385,7 @@ f_bed:'Bedrooms: {n}',f_bath:'Bathrooms: {n}',f_built:'Completed {y}',f_bu:'Buil
 date:'Date:',pending:'Next date not set yet',cal_add:'Add to calendar',cal_title:'Auction: {t}',
 cd_today:'Today!',cd_tom:'Tomorrow!',cd_in:'In {n} days',cd_yest:'Yesterday',cd_ago:'{n} days ago',nth:'{v} auction',
 wa_btn:'💬 WhatsApp {name} about this unit',wa_btn_end:'💬 Ask {name} about similar units',
-wa_unit:'Hi {name}, I am interested in this auction unit:',wa_unit_end:'Hi {name}, I saw this unit ({st}). Do you have similar units?',
+pos_btn:'\uD83D\uDCC4 Request POS from agent',wa_pos:'Hi {name}, please send me the Proclamation of Sale (POS) for this unit:',wa_unit:'Hi {name}, I am interested in this auction unit:',wa_unit_end:'Hi {name}, I saw this unit ({st}). Do you have similar units?',
 wa_price:'Auction price: {p}',wa_date:'Auction date: {d}',what:'What does this mean?',link_copied:'Link copied',
 share_list:'Bank auction properties below market value. Contact {name}: {phone}',share_unit:'{t} in {d}, {s}. {p}{b}. Auction {a}.',
 theme_dark:'Switch to dark mode',theme_light:'Switch to light mode',size_al:'Text size',size0:'Normal text',size1:'Bigger text',size2:'Biggest text',
@@ -457,7 +458,7 @@ f_bed:'Bilik tidur: {n}',f_bath:'Bilik air: {n}',f_built:'Siap {y}',f_bu:'Binaan
 date:'Tarikh:',pending:'Tarikh seterusnya belum ditetapkan',cal_add:'Masukkan ke kalendar',cal_title:'Lelong: {t}',
 cd_today:'Hari ini!',cd_tom:'Esok!',cd_in:'{n} hari lagi',cd_yest:'Semalam',cd_ago:'{n} hari lepas',nth:'Lelong ke-{v}',
 wa_btn:'💬 WhatsApp {name} tentang unit ini',wa_btn_end:'💬 Tanya {name} tentang unit serupa',
-wa_unit:'Hi {name}, saya berminat dengan unit lelong ini:',wa_unit_end:'Hi {name}, saya nampak unit ini ({st}). Ada unit yang serupa?',
+pos_btn:'\uD83D\uDCC4 Minta POS daripada ejen',wa_pos:'Hi {name}, mohon hantar Perisytiharan Jualan (POS) untuk unit ini:',wa_unit:'Hi {name}, saya berminat dengan unit lelong ini:',wa_unit_end:'Hi {name}, saya nampak unit ini ({st}). Ada unit yang serupa?',
 wa_price:'Harga lelong: {p}',wa_date:'Tarikh lelong: {d}',what:'Apa maksudnya?',link_copied:'Pautan disalin',
 share_list:'Hartanah lelong bank di bawah nilai pasaran. Hubungi {name}: {phone}',share_unit:'{t} di {d}, {s}. {p}{b}. Lelong {a}.',
 theme_dark:'Tukar ke mod gelap',theme_light:'Tukar ke mod cerah',size_al:'Saiz tulisan',size0:'Tulisan biasa',size1:'Tulisan besar',size2:'Tulisan paling besar',
@@ -765,6 +766,9 @@ function cdChip(s){const d=dt(s);if(!d)return '';const n=Math.round((d-T0)/864e5
  if(n>1)return '<span class="cd'+(n<=7?' soon':'')+'">'+tx('cd_in',{n})+'</span>';
  return '<span class="cd">'+(n===-1?tx('cd_yest'):tx('cd_ago',{n:-n}))+'</span>'}
 // WhatsApp to the agent with the unit already written in (ended units: ask for similar ones)
+// 'Request POS from agent' (26/10/2026): members WhatsApp the agent for the Proclamation of Sale; the free preview shows the Premium lock
+function waPos(r){const L=[tx('wa_pos'),'',pv(typeName(r))+', '+pv(r[1]),tx('wa_price',{p:pv(r[7])}),tx('wa_date',{d:fmtDay(r[12])+(ok(r[13])?' '+r[13]:'')}),BASE+'#'+r[20]];return AGENT.wa+'?text='+encodeURIComponent(L.join('\n'))}
+function posBtn(r){return '<div class="posrow">'+(TRIAL?'<span class="pos-lbl">'+tx('pos_btn')+'</span>'+lockLink():'<a class="posbtn" href="'+esc(waPos(r))+'" target="_blank" rel="noopener">'+tx('pos_btn')+'</a>')+'</div>'}
 function waUnit(r,st){const end=st==='sold'||st==='calloff';
  const L=[end?tx('wa_unit_end',{st:stName(st)}):tx('wa_unit'),'',pv(typeName(r))+', '+pv(r[1]),tx('wa_price',{p:pv(r[7])}),tx('wa_date',{d:fmtDay(r[12])+(ok(r[13])?' '+r[13]:'')}),BASE+'#'+r[20]];
  return AGENT.wa+'?text='+encodeURIComponent(L.join('\n'))}
@@ -790,7 +794,7 @@ function card(r,i){
  +(simple?'':'<div class="mv"><small>'+tx('market_value')+'</small> <b>'+(suspect(r)?'N/A':dash(r[8]))+'</b>'+(bt?'':qb('bmv'))+'</div>')
  +(bt?'<div class="bmvrow"><span class="bmv">'+esc(bt)+'</span>'+qb('bmv')+'</div>':'')+'</div>'
  +(st==='unsold'&&liveUnsold(r)?unsoldNote(r):'')
- +(simple?facts(r,condo):dims(r,condo))
+ +(simple?facts(r,condo):dims(r,condo))+posBtn(r)
  +'<div class="when"><span class="dlab">'+tx('date')+'</span><span class="dtx"><b>'+esc(fmtDay(r[12]))+'</b><span class="tm">'+(ok(r[13])?'<span>'+esc(r[13])+'</span>':'')+cdChip(r[12])+'</span></span></div>'
  +(cn||cal?'<div class="when2">'+(cn?'<span class="cnt">'+cn+qb('count')+'</span>':'<span></span>')+(cal?'<a class="calbtn" href="'+esc(cal)+'" target="_blank" rel="noopener">'+tx('cal_add')+'</a>':'')+'</div>':'')
  +chips(r)
@@ -863,6 +867,7 @@ $('list').onclick=e=>{const t=e.target;
  const f=t.closest('.fav');if(f){toggleFav(f.dataset.id,f);return}
  const unit=el=>{const c=el.closest('.card');return {unit_id:c&&c.dataset.id}};
  const w=t.closest('.wa-unit');if(w){track('whatsapp_unit_click',unit(w));return}
+ const pb=t.closest('.posbtn');if(pb){track('pos_request_click',unit(pb));return}
  const cl=t.closest('.calbtn');if(cl){track('calendar_click',unit(cl));return}
  const m=t.closest('a.map');if(m){track('maps_click',unit(m));return}
  const b=t.closest('.tg');if(!b)return;track('more_info_click',unit(b));const c=b.closest('.card');c.classList.toggle('open');b.textContent=tx(c.classList.contains('open')?'close':'more_info')};
