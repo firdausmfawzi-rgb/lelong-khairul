@@ -555,7 +555,7 @@ function fill(sel,vals,all){sel.innerHTML='<option value="">'+esc(all)+'</option
 fill($('negeri'),uniq(2),tx('all_states'));
 // Type filter uses r[28] = kind (one entry per real type, set by the skill's normtype.py); the card still shows the detailed r[5]
 DATA.forEach(r=>{if(!r[28]||r[28]==='-')r[28]=r[5]});
-// generic source labels (Auctionnetwork) on the card are replaced by the type worked out from the address
+// generic source labels on the card are replaced by the type worked out from the address
 const GENT={'Apartment / Condo / SOHO':1,'Terrace / Link / Townhouse':1,'Semi-Detached / Bungalow / Villa':1,'Shop / Office / Retail':1,'Factory / Warehouse / Workshop':1};
 fill($('jenis'),uniq(28),tx('all_type',{n:DATA.length}));
 const selT=new Set();   // Auction Date: any number of dates can be ticked at once
@@ -673,7 +673,7 @@ function histHtml(r){const h=Array.isArray(r[29])?r[29].filter(x=>Array.isArray(
  return '<div style="grid-column:1/-1"><details class="hist"><summary>'+tx('hist')+' <span class="hist-n">'+h.length+'</span></summary><div class="hist-sub">'+tx('hist_sub')+'</div><table>'
   +rows.map(x=>'<tr'+(x[0]?' class="now"':'')+'>'+(!x[0]&&TRIAL?'<td colspan="2">'+esc(dow(x[1]))+', '+lockLink()+'</td>':'<td>'+esc(fmtDay(x[1]))+(x[0]?' · '+tx('hist_now'):'')+'</td><td>'+(x[0]?dash(x[2]):esc(rm(x[2])))+'</td>')+'</tr>').join('')+'</table></details></div>'}
 // VIP Investor Plan (25/10/2026, RM99 on the landing page only): ROI, rental, projected selling price with RPGT, refinancing; every assumption editable.
-// Premium members and the free preview see the locked box instead. Defaults: rental 4%/yr of market value when BidNow has none,
+// Premium members and the free preview see the locked box instead. Defaults: rental 4%/yr of market value when the listing has none,
 // furnished +15%, growth 3%/yr, loan 90% (70% for shops, factories, land), 5 years, RPGT by the citizen schedule.
 const SIP={yield:.04,furn:15,grow:3,ltv:90,ltvCom:70,yrs:5};
 const rpgtRate=y=>y<=3?30:y===4?20:y===5?15:0;
