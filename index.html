@@ -55,6 +55,9 @@ h1{font-family:var(--display);font-size:1.35rem;margin:4px 0 2px;text-wrap:balan
 .favbtn[aria-pressed="true"]{background:var(--red);color:var(--surface)}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;gap:8px}
 .top input{flex:1;min-width:0}
+.top .top-lang{flex:0 0 auto;display:flex}.top .top-lang button{min-height:46px;padding:0 9px;font-weight:700}
+#resetTop{flex:0 0 auto;min-height:46px;padding:0 11px}#openTop{flex:0 0 auto;padding:0 12px}
+@media (max-width:400px){.top{gap:6px}.top .top-lang button{padding:0 7px;font-size:.92rem}#resetTop{padding:0 8px;font-size:.92rem}#openTop{padding:0 10px}}
 #openTop{min-height:46px;background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 input,select{font:inherit;font-size:calc(16px * var(--fs));color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-width:0;width:100%}
 button{font:inherit;cursor:pointer;min-height:44px}
@@ -281,12 +284,14 @@ body{padding-block-end:100px}
 <div class="trial-bar" id="trialBar" hidden><span data-i18n="trial_msg">You are viewing the free preview. Full details are for premium members.</span><a class="btn" id="trialCta" href="premium/" data-i18n="lock">Unlock Premium RM50 only</a></div>
 <div class="tools">
 <div class="tgrp ts" role="group" aria-label="Text size" data-i18n-al="size_al"><button type="button" data-s="" aria-label="Normal text" data-i18n-al="size0">A</button><button type="button" data-s="l" aria-label="Bigger text" data-i18n-al="size1">A+</button><button type="button" data-s="xl" aria-label="Biggest text" data-i18n-al="size2">A++</button></div>
-<div class="tgrp" role="group" aria-label="Language / Bahasa"><button type="button" data-l="en" lang="en">English</button><button type="button" data-l="ms" lang="ms">BM</button></div>
+
 </div>
 <div class="sub"><span data-i18n="banner">Interested? Contact Khairul Kar: 010-2449587</span><span class="sub-acts"><a id="bannerCall" href="#" data-i18n="call">📞 Call</a><a class="sub-wa" id="bannerWa" href="https://wa.me/60102449587" target="_blank" rel="noopener">💬 WhatsApp</a></span></div>
 <div class="start"><button type="button" class="qf-btn main" id="qfBtn" disabled><span data-i18n="qf_btn">🔎 Quick Find</span><small data-i18n="qf_sub">3 easy questions</small></button><button type="button" class="qf-btn" id="guideBtn"><span data-i18n="guide_btn">❓ How to use</span><small data-i18n="guide_sub">this page</small></button></div>
 <div class="top">
 <input id="q" type="search" placeholder="🔎 Address or bank" data-i18n-ph="search_ph" aria-label="Search address or bank" data-i18n-al="search_al">
+<div class="tgrp top-lang" role="group" aria-label="Language / Bahasa"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="ms" lang="ms">BM</button></div>
+<button class="btn" id="resetTop" type="button" data-i18n="reset" title="Reset and back to top">Reset</button>
 <button class="btn" id="openTop" type="button"><span data-i18n="filter">Filter</span><span class="badge" hidden></span></button>
 </div>
 <div class="info-bar" id="lastBar" hidden><span data-i18n="last_t">Showing your last search</span><span class="ib-acts"><button type="button" id="startOver" data-i18n="start_over">Start over</button></span></div>
@@ -858,6 +863,7 @@ function clearShared(){if(!sharedId)return;sharedId=null;try{history.replaceStat
 function reset(quiet){clearShared();favMode=false;LASTON=false;ls.del('last');status='available';['q','negeri','jenis','cat'].forEach(k=>$(k).value='');selD.clear();selT.clear();selY.clear();tarikhToggle(false);cyToggle(false);cyFlag(false);$('daerahQ').value='';daerahOpts();$('pMin').value='';$('pMax').value='';bmv=0;laca='';if(!quiet){paint();render()}}
 document.querySelectorAll('.rs').forEach(b=>b.onclick=()=>reset());
 $('resetInline').onclick=()=>reset();$('resetBar').onclick=()=>reset();
+$('resetTop').onclick=()=>{reset(true);$('sort').value='new';paint();render();sheet(false);try{window.scrollTo({top:0,behavior:'smooth'})}catch(e){window.scrollTo(0,0)}track('reset_top',{})};
 $('startOver').onclick=()=>{track('start_over');reset()};
 function toggleFav(id,btn){const on=!FAV.has(id);on?FAV.add(id):FAV.delete(id);saveFav();
  btn.setAttribute('aria-pressed',String(on));btn.textContent=tx(on?'saved':'save');toast(tx(on?'fav_added':'fav_removed'));track(on?'fav_add':'fav_remove',{unit_id:id});
