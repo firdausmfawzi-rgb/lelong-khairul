@@ -21,10 +21,10 @@ gtag('config','G-XCVJ1YB5QR',{send_page_view:true,page_location:location.origin+
 
 <style>
 /* Layout: phone-first card list, sticky search bar, bottom-sheet filters with Reset */
-:root{--bg:#edf1f4;--surface:#fbfcfd;--fg:#22303a;--muted:#4f5d68;--line:#d3dde4;--accent:#2f6f7c;--accent-fg:#fff;--warn:#9a5526;--warn-bg:#f7ebe1;--ok-bg:#dff0ee;--scrim:rgba(20,30,38,.45);--red:#b3261e;--red-bg:#fbe3e1;--wa:#1d7a45;--wa-fg:#fff;--fs:1;
+:root{--prem:#b8731a;--prem-bg:#fff3e0;--bg:#edf1f4;--surface:#fbfcfd;--fg:#22303a;--muted:#4f5d68;--line:#d3dde4;--accent:#2f6f7c;--accent-fg:#fff;--warn:#9a5526;--warn-bg:#f7ebe1;--ok-bg:#dff0ee;--scrim:rgba(20,30,38,.45);--red:#b3261e;--red-bg:#fbe3e1;--wa:#1d7a45;--wa-fg:#fff;--fs:1;
 --display:'Fraunces',Georgia,serif;--body:'IBM Plex Sans',system-ui,sans-serif}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171b;--surface:#1b2227;--fg:#e4eaee;--muted:#a9b6bf;--line:#2f3a42;--accent:#7cc0cc;--accent-fg:#0d2327;--warn:#e5a77c;--warn-bg:#33261c;--ok-bg:#17323a;--scrim:rgba(0,0,0,.6);--red:#ff9b94;--red-bg:#3d1c1a;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#12171b;--surface:#1b2227;--fg:#e4eaee;--muted:#a9b6bf;--line:#2f3a42;--accent:#7cc0cc;--accent-fg:#0d2327;--warn:#e5a77c;--warn-bg:#33261c;--ok-bg:#17323a;--scrim:rgba(0,0,0,.6);--red:#ff9b94;--red-bg:#3d1c1a;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12171b;--surface:#1b2227;--fg:#e4eaee;--muted:#a9b6bf;--line:#2f3a42;--accent:#7cc0cc;--prem:#f3bd63;--prem-bg:#3a2c14;--accent-fg:#0d2327;--warn:#e5a77c;--warn-bg:#33261c;--ok-bg:#17323a;--scrim:rgba(0,0,0,.6);--red:#ff9b94;--red-bg:#3d1c1a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12171b;--surface:#1b2227;--fg:#e4eaee;--muted:#a9b6bf;--line:#2f3a42;--accent:#7cc0cc;--prem:#f3bd63;--prem-bg:#3a2c14;--accent-fg:#0d2327;--warn:#e5a77c;--warn-bg:#33261c;--ok-bg:#17323a;--scrim:rgba(0,0,0,.6);--red:#ff9b94;--red-bg:#3d1c1a;color-scheme:dark}
 /* text size: A / A+ / A++ buttons, remembered on the device (every rem size scales with it) */
 :root[data-size="l"]{--fs:1.15}
 :root[data-size="xl"]{--fs:1.3}
@@ -76,6 +76,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .hero-note .pin{width:18px;height:18px;flex:none;fill:#5fd38d}
 .hero-cap{position:absolute;left:8px;bottom:7px;padding:2px 7px;border-radius:6px;background:rgba(14,20,24,.6);font-size:.72rem;font-weight:600;letter-spacing:.02em}
 a.hero:hover .hero-note,a.hero:focus-visible .hero-note{background:rgba(14,20,24,.9)}
+/* free preview (TRIAL): paid values become this link; the bar at the top says what the visitor is looking at */
+.lock{display:inline-flex;align-items:center;gap:4px;color:var(--prem);background:var(--prem-bg);border-radius:8px;padding:2px 8px;font-weight:800;font-size:.95em;text-decoration:none;white-space:nowrap;line-height:1.4}.lock:hover,.lock:focus-visible{text-decoration:underline}
+.trial-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--prem-bg);border:1px solid var(--prem);border-radius:14px;padding:10px 14px;font-weight:600;line-height:1.4}.trial-bar span{flex:1 1 200px;min-width:0}.trial-bar a.btn{background:var(--prem);border-color:var(--prem);color:#1b1206;font-weight:800;min-height:44px;display:inline-flex;align-items:center}
+html.trial #bmvFld,html.trial #cyFld,html.trial #cyNote{display:none!important}html.trial #sort option[value*=bmv]{display:none}
 .head{display:flex;align-items:flex-start;gap:10px}.head .num{flex:none;min-width:34px;height:34px;padding:0 8px;border-radius:10px;background:var(--accent);color:var(--accent-fg);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700}.head .addr{flex:1;min-width:0;padding-top:3px}.kindt{font-size:.98rem;font-weight:700;color:var(--fg);min-width:0;overflow-wrap:anywhere}
 .pricebox{background:var(--bg);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
 .price{white-space:nowrap;font-size:1.75rem;font-weight:800;line-height:1.15;letter-spacing:-.01em}
@@ -245,11 +249,11 @@ body{padding-block-end:100px}
  .card .more{display:grid}
  .card.expired>*{opacity:1!important}
  .pricebox,.dims>div,.exp-tag,.head .num,.cd,.bmv,.chip,.unsold-note{border:1px solid #999}
- .hero{display:none}
+ .hero,.trial-bar{display:none}
 }
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=IBM+Plex+Sans:wght@400;600;700&display=swap">
-<script>/* apply the client's saved light / dark choice, text size and language before first paint (no flash); KP = this site's settings prefix */var KP='khairul.';try{var _t=localStorage.getItem('khairul.theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _s=localStorage.getItem(KP+'size');if(_s==='l'||_s==='xl')document.documentElement.setAttribute('data-size',_s);if(localStorage.getItem(KP+'lang')==='ms')document.documentElement.lang='ms'}catch(e){}</script>
+<script>/* apply the client's saved light / dark choice, text size and language before first paint (no flash); KP = this site's settings prefix */var KP='khairul.',TRIAL=false,LANDING='premium/';if(TRIAL)document.documentElement.classList.add('trial');try{var _t=localStorage.getItem('khairul.theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _s=localStorage.getItem(KP+'size');if(_s==='l'||_s==='xl')document.documentElement.setAttribute('data-size',_s);if(localStorage.getItem(KP+'lang')==='ms')document.documentElement.lang='ms'}catch(e){}</script>
 </head>
 <body>
 <div class="gate" id="gate" hidden><form class="box" id="gateForm">
@@ -265,6 +269,7 @@ body{padding-block-end:100px}
 <div class="wrap">
 <div class="hd"><h1 data-i18n="h1">Auction List</h1><div class="hd-acts"><button class="btn theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Light / dark mode">🌙</button><button class="btn share-all" id="shareAll" type="button" data-i18n="share">Share</button></div></div>
 <p class="upd" id="upd"></p>
+<div class="trial-bar" id="trialBar" hidden><span data-i18n="trial_msg">You are viewing the free preview. Full details are for premium members.</span><a class="btn" id="trialCta" href="premium/" data-i18n="lock">Unlock Premium RM50 only</a></div>
 <div class="tools">
 <div class="tgrp ts" role="group" aria-label="Text size" data-i18n-al="size_al"><button type="button" data-s="" aria-label="Normal text" data-i18n-al="size0">A</button><button type="button" data-s="l" aria-label="Bigger text" data-i18n-al="size1">A+</button><button type="button" data-s="xl" aria-label="Biggest text" data-i18n-al="size2">A++</button></div>
 <div class="tgrp" role="group" aria-label="Language / Bahasa"><button type="button" data-l="en" lang="en">English</button><button type="button" data-l="ms" lang="ms">BM</button></div>
@@ -315,7 +320,7 @@ body{padding-block-end:100px}
 <div class="ms-foot"><button type="button" class="reset-inline" id="tarikhClear" hidden data-i18n="clear_dates">Clear dates</button><button type="button" class="btn" id="tarikhDone" data-i18n="done">Done</button></div>
 </div></div>
 <div class="fld"><span id="priceLbl"><span data-i18n="fl_price">Auction Price (RM) - your budget</span><button type="button" class="q" data-h="price" aria-label="What does this mean?" data-i18n-al="what">?</button></span><div class="pr"><label class="pr-f"><span data-i18n="p_from_l">From</span><input id="pMin" type="text" inputmode="numeric" placeholder="e.g. 100,000" data-i18n-ph="p_from" autocomplete="off" aria-label="Minimum auction price in RM" data-i18n-al="p_from_al"></label><label class="pr-f"><span data-i18n="p_to_l">To</span><input id="pMax" type="text" inputmode="numeric" placeholder="e.g. 300,000" data-i18n-ph="p_to" autocomplete="off" aria-label="Maximum auction price in RM" data-i18n-al="p_to_al"></label></div></div>
-<div class="fld"><span><span data-i18n="fl_bmv">Discount from market value (at least)</span><button type="button" class="q" data-h="bmv" aria-label="What does this mean?" data-i18n-al="what">?</button></span><div class="seg" id="bmvSeg"></div></div>
+<div class="fld" id="bmvFld"><span><span data-i18n="fl_bmv">Discount from market value (at least)</span><button type="button" class="q" data-h="bmv" aria-label="What does this mean?" data-i18n-al="what">?</button></span><div class="seg" id="bmvSeg"></div></div>
 <div class="fld"><span><span>LACA</span><button type="button" class="q" data-h="laca" aria-label="What does this mean?" data-i18n-al="what">?</button></span><div class="seg" id="lacaSeg"></div></div>
 </div>
 <div class="sh-foot"><button class="btn rs" type="button" data-i18n="reset_all">Reset all</button><button class="btn primary" id="apply" type="button">Show</button></div>
@@ -383,6 +388,7 @@ qf_t:'Quick Find',qf_step:'Question {i} of 3',qf_q1:'Where do you want to buy?',
 qf_any1:'Any state',qf_any2:'Any type',qf_any3:'Any budget',qf_b0:'Up to RM 200,000',qf_b1:'RM 200,000 - 400,000',qf_b2:'RM 400,000 - 700,000',qf_b3:'RM 700,000 and above',
 n_units:'{n} units',n_units1:'{n} unit',fav_count1:'My list: {n} unit',showing1:'Showing {n} unit',show_n1:'Show {n} unit',more_n:'Show more ({n} more)',back:'Back',cancel:'Cancel',showing:'Showing {n} units',
 hero_note:'Tap to see the location on Google Maps',hero_cap:'Illustration only, not the actual property',
+lock:'Unlock Premium RM50 only',lock_plain:'Premium members only',bmv_lock:'XX% below market value',hero_lock:'Unlock Premium RM50 only to see the exact location',trial_msg:'You are viewing the free preview. Full details are for premium members.',
 guide_t:'How to use this page',got_it:'Got it',
 guide:'<ol class="steps">'
 +'<li><span class="si" aria-hidden="true">☀️</span><div><strong>Light or dark screen</strong>Tap the <b>☀️ / 🌙</b> button at the top right of the page to switch between a bright screen and a dark screen. Choose the one that is easier on your eyes.<button class="btn g-theme" type="button" data-theme-toggle>☀️ / 🌙</button></div></li>'
@@ -455,6 +461,7 @@ qf_t:'Carian Mudah',qf_step:'Soalan {i} daripada 3',qf_q1:'Di mana anda mahu bel
 qf_any1:'Mana-mana negeri',qf_any2:'Mana-mana jenis',qf_any3:'Mana-mana bajet',qf_b0:'Sehingga RM 200,000',qf_b1:'RM 200,000 - 400,000',qf_b2:'RM 400,000 - 700,000',qf_b3:'RM 700,000 ke atas',
 n_units:'{n} unit',n_units1:'{n} unit',fav_count1:'Senarai saya: {n} unit',showing1:'Menunjukkan {n} unit',show_n1:'Tunjuk {n} unit',more_n:'Tunjuk lagi ({n} lagi)',back:'Kembali',cancel:'Batal',showing:'Menunjukkan {n} unit',
 hero_note:'Tekan untuk lihat lokasi di Google Maps',hero_cap:'Gambar hiasan, bukan hartanah sebenar',
+lock:'Buka Premium RM50 sahaja',lock_plain:'Ahli premium sahaja',bmv_lock:'XX% bawah nilai pasaran',hero_lock:'Buka Premium RM50 sahaja untuk lokasi tepat',trial_msg:'Anda melihat pratonton percuma. Butiran penuh untuk ahli premium.',
 guide_t:'Cara guna laman ini',got_it:'Faham',
 guide:'<ol class="steps">'
 +'<li><span class="si" aria-hidden="true">☀️</span><div><strong>Skrin cerah atau gelap</strong>Tekan butang <b>☀️ / 🌙</b> di penjuru kanan atas laman untuk tukar antara skrin cerah dan skrin gelap. Pilih yang paling selesa untuk mata anda.<button class="btn g-theme" type="button" data-theme-toggle>☀️ / 🌙</button></div></li>'
@@ -550,12 +557,14 @@ if(sharedId&&!DATA.some(r=>r[20]===sharedId))sharedId=null;
 const track=gtrack;
 const BASE=location.origin+location.pathname;
 const ok=v=>v&&v!=='-'&&v!=='N/A';
-const pv=v=>ok(v)?String(v):'N/A';   // plain text for messages (WhatsApp, calendar, share)
-const dash=v=>ok(v)?esc(v):'N/A';
+const locked=v=>TRIAL&&v==='LOCKED';   // trial/data.json puts LOCKED where the paid value was
+const lockLink=()=>'<a class="lock" href="'+esc(LANDING)+'">\uD83D\uDD13 '+tx('lock')+'</a>';
+const pv=v=>locked(v)?tx('lock_plain'):ok(v)?String(v):'N/A';   // plain text for messages (WhatsApp, calendar, share)
+const dash=v=>locked(v)?lockLink():ok(v)?esc(v):'N/A';
 const qb=k=>'<button type="button" class="q" data-h="'+k+'" aria-label="'+esc(tx('what'))+'">?</button>';
 const typeName=r=>GENT[r[5]]?r[28]:r[5];
 function toast(m){const el=$('toast');el.textContent=m;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2500)}
-const bmvTxt=r=>{const v=suspect(r)||!ok(r[6])?'':String(r[6]);if(!v||/^\s*0%/.test(v))return '';const m=/^\s*(\d+(?:\.\d+)?)%\s*(?:BMV)?\s*$/i.exec(v);return m?tx('bmv_txt',{p:m[1]}):v};
+const bmvTxt=r=>{if(TRIAL&&/^XX%/.test(String(r[6]||'')))return tx('bmv_lock');const v=suspect(r)||!ok(r[6])?'':String(r[6]);if(!v||/^\s*0%/.test(v))return '';const m=/^\s*(\d+(?:\.\d+)?)%\s*(?:BMV)?\s*$/i.exec(v);return m?tx('bmv_txt',{p:m[1]}):v};
 async function doShare(kind,r){
  const url=BASE+'?utm_source=share&utm_medium='+(r?'unit':'list')+'&utm_campaign=client_share'+(r?'#'+r[20]:'');
  const b=r?bmvTxt(r):'';
@@ -576,7 +585,7 @@ const artOf=r=>r[28]==='Flat'?'flat':ART[r[21]]||'';
 const PIN='<svg class="pin" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
 function hero(r){const k=artOf(r);if(!k)return '';const m=/^https:\/\//i.test(r[4]||'')?r[4]:'';const img='<img src="'+IMG+k+'.webp" width="960" height="540" alt="" loading="lazy" decoding="async">';
  const cap='<span class="hero-cap">'+tx('hero_cap')+'</span>';
- return m?'<a class="hero" href="'+esc(m)+'" target="_blank" rel="noopener" aria-label="'+esc(tx('hero_note'))+'">'+img+'<span class="hero-note">'+PIN+tx('hero_note')+'</span>'+cap+'</a>':'<div class="hero">'+img+cap+'</div>'}
+ return m?'<a class="hero" href="'+esc(m)+'" target="_blank" rel="noopener" aria-label="'+esc(tx('hero_note'))+'">'+img+'<span class="hero-note">'+PIN+tx('hero_note')+'</span>'+cap+'</a>':TRIAL?'<a class="hero" href="'+esc(LANDING)+'" aria-label="'+esc(tx('hero_lock'))+'">'+img+'<span class="hero-note">\uD83D\uDD13 '+tx('hero_lock')+'</span>'+cap+'</a>':'<div class="hero">'+img+cap+'</div>'}
 function catOf(r){if(r[18]&&r[18]!=='-')return r[18];const s=String(r[5]||'').toLowerCase();
  if(/factory|warehouse|workshop|industrial/.test(s))return CATS[3];
  if(/shop|office|retail|commercial/.test(s))return CATS[4];
@@ -620,7 +629,7 @@ function facetOpts(){
  if(!isCondoCat&&selY.size)selY.clear();
  if(!isCondoCat)cyFlag(false);
  {
-  const ym=new Map();filtered('catcy').forEach(r=>{const v=r[19];if(r[21]===CATS[0]&&v&&v!=='-')ym.set(v,(ym.get(v)||0)+1)});
+  const ym=new Map();filtered('catcy').forEach(r=>{const v=r[19];if(r[21]===CATS[0]&&v&&v!=='-'&&!locked(v))ym.set(v,(ym.get(v)||0)+1)});
   const yl=[...ym.keys()].sort((a,b)=>(parseInt(b)||0)-(parseInt(a)||0));
   [...selY].forEach(x=>{if(!ym.has(x))selY.delete(x)});
   const yl0=$('cyList'),yt=yl0.scrollTop;
@@ -643,14 +652,15 @@ const stName=st=>tx('st_'+st);
 const cnt={active:0,unsold:0,calloff:0,sold:0,expired:0};DATA.forEach(r=>{cnt[stOf(r)]++});
 // Unsold (shown as "No bidder") = nobody bid; it goes to another auction, normally at a lower reserve. Estimate = price less 10%.
 // past auction rounds of the unit (history field: [[date, reserve price], ...] newest first) + the current round on top for comparison
-function histHtml(r){const h=Array.isArray(r[29])?r[29].filter(x=>Array.isArray(x)&&x[0]):[];if(!h.length)return '';
+const dow=i=>new Date(Date.UTC(2024,0,1+i)).toLocaleDateString(LOC(),{weekday:'long',timeZone:'UTC'});   // 0 = Monday (trial/data.json keeps only the weekday of a past round)
+function histHtml(r){const h=Array.isArray(r[29])?r[29].filter(x=>Array.isArray(x)&&(x[0]||x[0]===0)):[];if(!h.length)return '';
  const rm=p=>p?'RM '+Number(p).toLocaleString('en-US'):'-';
  const rows=[['now',r[12],r[7]]].concat(h.map(x=>['',x[0],x[1]]));
  return '<div style="grid-column:1/-1"><details class="hist"><summary>'+tx('hist')+' <span class="hist-n">'+h.length+'</span></summary><div class="hist-sub">'+tx('hist_sub')+'</div><table>'
-  +rows.map(x=>'<tr'+(x[0]?' class="now"':'')+'><td>'+esc(fmtDay(x[1]))+(x[0]?' · '+tx('hist_now'):'')+'</td><td>'+(x[0]?dash(x[2]):esc(rm(x[2])))+'</td></tr>').join('')+'</table></details></div>'}
+  +rows.map(x=>'<tr'+(x[0]?' class="now"':'')+'>'+(!x[0]&&TRIAL?'<td colspan="2">'+esc(dow(x[1]))+', '+lockLink()+'</td>':'<td>'+esc(fmtDay(x[1]))+(x[0]?' · '+tx('hist_now'):'')+'</td><td>'+(x[0]?dash(x[2]):esc(rm(x[2])))+'</td>')+'</tr>').join('')+'</table></details></div>'}
 const unsoldNote=r=>{const p=num(r[7]);const np=p>0?'RM '+Math.round(p*0.9).toLocaleString('en-US'):'';
  return '<div class="unsold-note"><b>'+tx('unsold_t')+'</b><span>'+tx('unsold_p')+(np?tx('unsold_np',{p:'<b>'+np+'</b>'}):'')+'</span></div>'};
-const tagText=(r,st)=>st==='sold'?tx('tag_sold')+(ok(r[27])?' · '+esc(r[27]):''):st==='calloff'?tx('tag_calloff'):st==='unsold'?tx('tag_unsold'):tx('tag_expired');
+const tagText=(r,st)=>st==='sold'?tx('tag_sold')+(ok(r[27])?' · '+dash(r[27]):''):st==='calloff'?tx('tag_calloff'):st==='unsold'?tx('tag_unsold'):tx('tag_expired');
 const updLine=()=>{$('upd').textContent=tx('updated',{d:new Date(META.updated).toLocaleDateString(LOC(),{day:'numeric',month:'short',year:'numeric'})})};
 updLine();
 function seg(el,opts,get,set){el.innerHTML=opts.map(o=>'<button type="button" data-v="'+o[0]+'">'+o[1]+'</button>').join('');
@@ -690,7 +700,7 @@ function filtered(skip){
  if(sharedId&&!skip)return DATA.filter(r=>r[20]===sharedId);
  if(favMode&&!skip)return DATA.filter(r=>FAV.has(r[20]));
  const q=$('q').value.trim().toLowerCase(),n=$('negeri').value,j=$('jenis').value;
- return DATA.filter(r=>inPrice(r)&&(!q||(r[1]+' '+r[16]).toLowerCase().includes(q))&&(!n||r[2]===n)&&(!selD.size||selD.has(r[3]))&&(skip==='jenis'||!j||r[28]===j)&&(!bmv||bmvv(r)>=bmv)&&(!laca||r[17]===laca)&&(skip==='tarikh'||!selT.size||selT.has(r[12]))&&(skip==='cat'||skip==='catcy'||!$('cat').value||r[21]===$('cat').value)&&(skip==='cy'||skip==='catcy'||!selY.size||selY.has(r[19]))&&(status==='all'||(status==='available'?(stOf(r)==='active'||stOf(r)==='unsold'):stOf(r)===status)));
+ return DATA.filter(r=>inPrice(r)&&(!q||(r[1]+' '+(locked(r[16])?'':r[16])).toLowerCase().includes(q))&&(!n||r[2]===n)&&(!selD.size||selD.has(r[3]))&&(skip==='jenis'||!j||r[28]===j)&&(!bmv||bmvv(r)>=bmv)&&(!laca||r[17]===laca)&&(skip==='tarikh'||!selT.size||selT.has(r[12]))&&(skip==='cat'||skip==='catcy'||!$('cat').value||r[21]===$('cat').value)&&(skip==='cy'||skip==='catcy'||!selY.size||selY.has(r[19]))&&(status==='all'||(status==='available'?(stOf(r)==='active'||stOf(r)==='unsold'):stOf(r)===status)));
 }
 // Budget: auction price between From and To (either may be empty). A unit with no price is left out while a range is set.
 const priceLo=()=>num($('pMin').value),priceHi=()=>num($('pMax').value);
@@ -716,7 +726,7 @@ function waUnit(r,st){const end=st==='sold'||st==='calloff';
  return AGENT.wa+'?text='+encodeURIComponent(L.join('\n'))}
 const nthTxt=r=>{if(!ok(r[14]))return '';const v=String(r[14]);return esc(tx('nth',{v:LANG==='ms'?((v.match(/\d+/)||[v])[0]):v}))};
 function facts(r,condo){const f=[];
- if(condo){if(ok(r[23]))f.push('🛏 '+tx('f_bed',{n:esc(r[23])}));if(ok(r[24]))f.push('🛁 '+tx('f_bath',{n:esc(r[24])}));if(ok(r[11]))f.push('📐 '+esc(r[11]));if(ok(r[19]))f.push(tx('f_built',{y:esc(r[19])}))}
+ if(condo){if(ok(r[23]))f.push('🛏 '+tx('f_bed',{n:esc(r[23])}));if(ok(r[24]))f.push('🛁 '+tx('f_bath',{n:esc(r[24])}));if(ok(r[11]))f.push('📐 '+esc(r[11]));if(ok(r[19]))f.push(tx('f_built',{y:dash(r[19])}))}
  else{if(ok(r[11]))f.push('📐 '+tx('f_bu',{v:esc(r[11])}));if(ok(r[10]))f.push(tx('f_land',{v:esc(r[10])}))}
  return f.length?'<div class="facts">'+f.map(x=>'<span>'+x+'</span>').join('')+'</div>':''}
 function dims(r,condo){return condo?'<div class="dims"><div><span>'+tx('built_up')+'</span><b>'+dash(r[11])+'</b></div><div><span>'+tx('cy')+'</span><b>'+dash(r[19])+'</b></div></div><div class="dims d3"><div><span>'+tx('bed')+'</span><b>'+dash(r[23])+'</b></div><div><span>'+tx('bath')+'</span><b>'+dash(r[24])+'</b></div><div><span>'+tx('car')+'</span><b>'+dash(r[25])+'</b></div></div>'
@@ -930,7 +940,7 @@ async function rekey(){try{ACCESS=await fetch('https://lelongbidgroup.com/khairu
 const getData=fresh=>fetch('https://lelongbidgroup.com/data.json'+(fresh?'?v='+Date.now():''),{cache:'no-store'}).then(r=>r.json());
 async function gunzip(buf){if(window.DecompressionStream)return new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
  const f=await import('https://cdn.jsdelivr.net/npm/fflate@0.8.2/esm/browser.js');return f.strFromU8(f.gunzipSync(new Uint8Array(buf)))}   // Safari before iOS 16.4
-async function loadListings(){let env=await getData(false);
+async function loadListings(){if(TRIAL)return getData(true);let env=await getData(false);
  if(env.kid!==ACCESS.kid){if(!(await rekey()))throw new Error('code');if(env.kid!==ACCESS.kid)env=await getData(true);if(env.kid!==ACCESS.kid)throw new Error('key')}
  return JSON.parse(await gunzip(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(env.iv)},DKEY,b64(env.ct))))}
 let STARTED=false;
@@ -939,7 +949,7 @@ function start(){if(STARTED)return;STARTED=true;G('count').textContent=tx('loadi
 const t0=new Date();t0.setHours(0,0,0,0);
 const listed=o=>o.outcome||!(Date.parse(o.auction_date)>0&&Date.parse(o.auction_date)<t0.getTime());
 boot(j.listings.filter(listed).map(o=>FIELDS.map(f=>o[f])),j);}).catch(()=>{G('count').textContent=tx('load_err')})}
-access().then(ok=>{if(ok)start()}).catch(()=>openGate('gate_err'));
+if(TRIAL){G('trialBar').hidden=false;G('trialCta').href=LANDING;start()}else access().then(ok=>{if(ok)start()}).catch(()=>openGate('gate_err'));
 </script>
 
 </body>
