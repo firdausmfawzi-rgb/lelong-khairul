@@ -56,7 +56,7 @@ h1{font-family:var(--display);font-size:1.35rem;margin:4px 0 2px;text-wrap:balan
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;gap:8px}
 .top input{flex:1;min-width:0}
 .top .top-lang{flex:0 0 auto;display:flex}.top .top-lang button{min-height:46px;padding:0 9px;font-weight:700}
-#resetTop{flex:0 0 auto;min-height:46px;padding:0 11px}#openTop{flex:0 0 auto;padding:0 12px}
+#resetTop{flex:0 0 auto;min-height:46px;padding:0 10px;white-space:nowrap}#openTop{flex:0 0 auto;padding:0 12px}
 @media (max-width:400px){.top{gap:6px}.top .top-lang button{padding:0 7px;font-size:.92rem}#resetTop{padding:0 8px;font-size:.92rem}#openTop{padding:0 10px}}
 #openTop{min-height:46px;background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 input,select{font:inherit;font-size:calc(16px * var(--fs));color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-width:0;width:100%}
@@ -291,7 +291,7 @@ body{padding-block-end:100px}
 <div class="top">
 <input id="q" type="search" placeholder="🔎 Address or bank" data-i18n-ph="search_ph" aria-label="Search address or bank" data-i18n-al="search_al">
 <div class="tgrp top-lang" role="group" aria-label="Language / Bahasa"><button type="button" data-l="en" lang="en">EN</button><button type="button" data-l="ms" lang="ms">BM</button></div>
-<button class="btn" id="resetTop" type="button" data-i18n="reset" title="Reset and back to top">Reset</button>
+<button class="btn" id="resetTop" type="button" data-i18n="reset_top" title="Reset and back to top">↺ Reset</button>
 <button class="btn" id="openTop" type="button"><span data-i18n="filter">Filter</span><span class="badge" hidden></span></button>
 </div>
 <div class="info-bar" id="lastBar" hidden><span data-i18n="last_t">Showing your last search</span><span class="ib-acts"><button type="button" id="startOver" data-i18n="start_over">Start over</button></span></div>
@@ -390,7 +390,7 @@ f_bed:'Bedrooms: {n}',f_bath:'Bathrooms: {n}',f_built:'Completed {y}',f_bu:'Buil
 date:'Date:',pending:'Next date not set yet',cal_add:'Add to calendar',cal_title:'Auction: {t}',
 cd_today:'Today!',cd_tom:'Tomorrow!',cd_in:'In {n} days',cd_yest:'Yesterday',cd_ago:'{n} days ago',nth:'{v} auction',
 wa_btn:'💬 WhatsApp {name} about this unit',wa_btn_end:'💬 Ask {name} about similar units',
-pos_btn:'\uD83D\uDCC4 Request POS from agent',wa_pos:'Hi {name}, please send me the Proclamation of Sale (POS) for this unit:',wa_unit:'Hi {name}, I am interested in this auction unit:',wa_unit_end:'Hi {name}, I saw this unit ({st}). Do you have similar units?',
+reset_top:'\u21BA Reset',pos_btn:'\uD83D\uDCC4 Request POS from agent',wa_pos:'Hi {name}, please send me the Proclamation of Sale (POS) for this unit:',wa_unit:'Hi {name}, I am interested in this auction unit:',wa_unit_end:'Hi {name}, I saw this unit ({st}). Do you have similar units?',
 wa_price:'Auction price: {p}',wa_date:'Auction date: {d}',what:'What does this mean?',link_copied:'Link copied',
 share_list:'Bank auction properties below market value. Contact {name}: {phone}',share_unit:'{t} in {d}, {s}. {p}{b}. Auction {a}.',
 theme_dark:'Switch to dark mode',theme_light:'Switch to light mode',size_al:'Text size',size0:'Normal text',size1:'Bigger text',size2:'Biggest text',
@@ -463,7 +463,7 @@ f_bed:'Bilik tidur: {n}',f_bath:'Bilik air: {n}',f_built:'Siap {y}',f_bu:'Binaan
 date:'Tarikh:',pending:'Tarikh seterusnya belum ditetapkan',cal_add:'Masukkan ke kalendar',cal_title:'Lelong: {t}',
 cd_today:'Hari ini!',cd_tom:'Esok!',cd_in:'{n} hari lagi',cd_yest:'Semalam',cd_ago:'{n} hari lepas',nth:'Lelong ke-{v}',
 wa_btn:'💬 WhatsApp {name} tentang unit ini',wa_btn_end:'💬 Tanya {name} tentang unit serupa',
-pos_btn:'\uD83D\uDCC4 Minta POS daripada ejen',wa_pos:'Hi {name}, mohon hantar Perisytiharan Jualan (POS) untuk unit ini:',wa_unit:'Hi {name}, saya berminat dengan unit lelong ini:',wa_unit_end:'Hi {name}, saya nampak unit ini ({st}). Ada unit yang serupa?',
+reset_top:'\u21BA Reset',pos_btn:'\uD83D\uDCC4 Minta POS daripada ejen',wa_pos:'Hi {name}, mohon hantar Perisytiharan Jualan (POS) untuk unit ini:',wa_unit:'Hi {name}, saya berminat dengan unit lelong ini:',wa_unit_end:'Hi {name}, saya nampak unit ini ({st}). Ada unit yang serupa?',
 wa_price:'Harga lelong: {p}',wa_date:'Tarikh lelong: {d}',what:'Apa maksudnya?',link_copied:'Pautan disalin',
 share_list:'Hartanah lelong bank di bawah nilai pasaran. Hubungi {name}: {phone}',share_unit:'{t} di {d}, {s}. {p}{b}. Lelong {a}.',
 theme_dark:'Tukar ke mod gelap',theme_light:'Tukar ke mod cerah',size_al:'Saiz tulisan',size0:'Tulisan biasa',size1:'Tulisan besar',size2:'Tulisan paling besar',
