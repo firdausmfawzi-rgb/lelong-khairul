@@ -987,10 +987,10 @@ function start(){if(STARTED)return;STARTED=true;G('count').textContent=tx('loadi
 const t0=new Date();t0.setHours(0,0,0,0);
 const listed=o=>o.outcome||!(Date.parse(o.auction_date)>0&&Date.parse(o.auction_date)<t0.getTime());
 boot(j.listings.filter(listed).map(o=>FIELDS.map(f=>o[f])),j);}).catch(()=>{G('count').textContent=tx('load_err')})}
-function trialLocks(){const so=$('sort');['bmv','lbmv'].forEach(v=>{const o=so.querySelector('option[value='+v+']');if(o)o.dataset.i18n='s_'+v+'_lock'});
- ['bmvFld','cyFld'].forEach(id=>{const f=$(id);if(f&&!f.querySelector('.lock-row'))f.insertAdjacentHTML('beforeend','<div class="lock-row"><a class="lock" data-i18n="lock_link" href="'+esc(LANDING)+'"></a></div>')});
+function trialLocks(){const so=G('sort');['bmv','lbmv'].forEach(v=>{const o=so.querySelector('option[value='+v+']');if(o)o.dataset.i18n='s_'+v+'_lock'});
+ ['bmvFld','cyFld'].forEach(id=>{const f=G(id);if(f&&!f.querySelector('.lock-row'))f.insertAdjacentHTML('beforeend','<div class="lock-row"><a class="lock" data-i18n="lock_link" href="'+String(LANDING).replace(/"/g,'&quot;')+'"></a></div>')});
  applyI18n();
- so.addEventListener('input',e=>{if(/bmv/.test(so.value)){e.stopImmediatePropagation();so.value='new';track('premium_click',{from:'sort'});location.href=LANDING}},true)}
+ so.addEventListener('input',e=>{if(/bmv/.test(so.value)){e.stopImmediatePropagation();so.value='new';try{gtrack('premium_click',{from:'sort'})}catch(x){}location.href=LANDING}},true)}
 if(TRIAL){G('trialBar').hidden=false;G('trialCta').href=LANDING;trialLocks();start()}else access().then(ok=>{if(ok)start()}).catch(()=>openGate('gate_err'));
 </script>
 
