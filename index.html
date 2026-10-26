@@ -1013,7 +1013,7 @@ async function loadListings(){if(TRIAL)return getData(true);
   j.listings=j.listings.concat((hj.listings||[]).filter(o=>o&&o.id&&!ids.has(o.id)));j.vip_days=hj.days||365}catch(x){j.vip_err=true}}   // the member is told under the status buttons
  return j}
 let STARTED=false;
-function showTierBadge(){const b=G('tierBadge');if(!b)return;if(TRIAL||!TIER){b.hidden=true;return}const vip=TIER==='sip';b.src=IMG+(vip?'badge-vip.webp':'badge-premium.webp');b.alt=vip?'VIP Investor Plan member':'Premium member';b.title=b.alt;b.classList.toggle('vip',vip);b.hidden=false}
+function showTierBadge(){const b=G('tierBadge');if(!b)return;if(TRIAL||!TIER){b.hidden=true;return}const vip=TIER==='sip';b.src='https://lelongbidgroup.com/img/'+(vip?'badge-vip.webp':'badge-premium.webp');b.alt=vip?'VIP Investor Plan member':'Premium member';b.title=b.alt;b.classList.toggle('vip',vip);b.hidden=false}
 function start(){if(STARTED)return;STARTED=true;showTierBadge();G('count').textContent=tx('loading');loadListings().then(j=>{// Only Active units and units with a recorded result (Sold / Call Off / Unsold) are shown. A unit whose auction date has passed
 // and has no result is not listed (a result usually appears within a day or two and the unit then comes back under its tab).
 const t0=new Date();t0.setHours(0,0,0,0);
