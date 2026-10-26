@@ -268,7 +268,7 @@ body{padding-block-end:100px}
 }
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=IBM+Plex+Sans:wght@400;600;700&display=swap">
-<script>/* apply the client's saved light / dark choice, text size and language before first paint (no flash); KP = this site's settings prefix */var KP='khairul.',TRIAL=false,LANDING='premium/',SIP_URL='https://clientkhairul.lelongbidgroup.com/premium/#sip',TIER='premium';if(TRIAL)document.documentElement.classList.add('trial');try{var _t=localStorage.getItem('khairul.theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _s=localStorage.getItem(KP+'size');if(_s==='l'||_s==='xl')document.documentElement.setAttribute('data-size',_s);if(localStorage.getItem(KP+'lang')==='ms')document.documentElement.lang='ms'}catch(e){}</script>
+<script>/* apply the client's saved light / dark choice, text size and language before first paint (no flash); KP = this site's settings prefix */var AGENT=false;var KP='khairul.',TRIAL=false,LANDING='premium/',SIP_URL='https://clientkhairul.lelongbidgroup.com/premium/#sip',TIER='premium';if(TRIAL)document.documentElement.classList.add('trial');try{var _t=localStorage.getItem('khairul.theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);var _s=localStorage.getItem(KP+'size');if(_s==='l'||_s==='xl')document.documentElement.setAttribute('data-size',_s);if(localStorage.getItem(KP+'lang')==='ms')document.documentElement.lang='ms'}catch(e){}</script>
 </head>
 <body>
 <div class="gate" id="gate" hidden><form class="box" id="gateForm">
@@ -282,7 +282,7 @@ body{padding-block-end:100px}
 <p style="font-size:.85rem">Khairul Kar · 010-2449587</p>
 </form></div>
 <div class="wrap">
-<div class="hd"><div class="hd-title"><h1 data-i18n="h1">Auction List</h1><img class="tier-badge" id="tierBadge" alt="" width="60" height="60" hidden></div><div class="hd-acts"><button class="btn theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Light / dark mode">🌙</button><button class="btn share-all" id="shareAll" type="button" data-i18n="share">Share</button></div></div>
+<div class="hd"><div class="hd-title"><h1 data-i18n="h1">Auction List</h1><img class="tier-badge" id="tierBadge" alt="" width="60" height="60" hidden><img class="tier-badge agent" id="agentBadge" alt="" width="60" height="60" hidden></div><div class="hd-acts"><button class="btn theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Light / dark mode">🌙</button><button class="btn share-all" id="shareAll" type="button" data-i18n="share">Share</button></div></div>
 <p class="upd" id="upd"></p>
 <div class="trial-bar" id="trialBar" hidden><span data-i18n="trial_msg">You are viewing the free preview. Full details are for premium members.</span><a class="btn" id="trialCta" href="premium/" data-i18n="lock">Unlock Premium RM50 only</a></div>
 <div class="tools">
@@ -990,11 +990,11 @@ async function access(){
  if(!ACCESS||!ACCESS.codes||!Object.keys(ACCESS.codes).length){openGate('');gtrack('access_gate',{});return false}   // no codes published = locked (nothing can open the listings)
  const code=LINK_CODE;let stored='';try{stored=localStorage.getItem('khairul.code')||''}catch(e){}
  let expired=false;
- for(const c of [code,stored]){if(!c)continue;const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';TIER=e.tier==='sip'?'sip':'premium';try{gtag('set','user_properties',{client:CLIENT,tier:TIER})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}gtrack('access_ok',{client:CLIENT});return true}
+ for(const c of [code,stored]){if(!c)continue;const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';TIER=e.tier==='sip'?'sip':'premium';AGENT=!!e.agent;try{gtag('set','user_properties',{client:CLIENT,tier:TIER})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}gtrack('access_ok',{client:CLIENT});return true}
   if(e==='expired')expired=true}   // an expired link code still lets a valid saved code in
  if(expired){openGate('gate_exp');renewMode();return false}
  openGate(code?'gate_invalid':'');gtrack('access_gate',{});return false}
-G('gateForm').addEventListener('submit',async ev=>{ev.preventDefault();const c=G('gateCode').value;gateMsg('gate_checking');const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';TIER=e.tier==='sip'?'sip':'premium';try{gtag('set','user_properties',{client:CLIENT,tier:TIER})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}G('gate').hidden=true;gateMsg('');gtrack('access_ok',{client:CLIENT});start()}else{if(e==='expired')renewMode();gateMsg(e==='expired'?'gate_exp2':'gate_bad')}});
+G('gateForm').addEventListener('submit',async ev=>{ev.preventDefault();const c=G('gateCode').value;gateMsg('gate_checking');const e=await checkCode(c);if(e&&e!=='expired'){CLIENT=e.label||'';TIER=e.tier==='sip'?'sip':'premium';AGENT=!!e.agent;try{gtag('set','user_properties',{client:CLIENT,tier:TIER})}catch(x){}try{localStorage.setItem('khairul.code',normCode(c))}catch(x){}G('gate').hidden=true;gateMsg('');gtrack('access_ok',{client:CLIENT});start()}else{if(e==='expired')renewMode();gateMsg(e==='expired'?'gate_exp2':'gate_bad')}});
 // access.json and data.json from two different publishes (a CDN copy is a few minutes old): read access.json fresh and unwrap again
 async function rekey(){try{ACCESS=await fetch('https://lelongbidgroup.com/khairul/access.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null)}catch(e){ACCESS=null}
  let c='';try{c=localStorage.getItem('khairul.code')||''}catch(e){}const e=c?await checkCode(c):null;return !!e&&e!=='expired'}
@@ -1013,7 +1013,8 @@ async function loadListings(){if(TRIAL)return getData(true);
   j.listings=j.listings.concat((hj.listings||[]).filter(o=>o&&o.id&&!ids.has(o.id)));j.vip_days=hj.days||365}catch(x){j.vip_err=true}}   // the member is told under the status buttons
  return j}
 let STARTED=false;
-function showTierBadge(){const b=G('tierBadge');if(!b)return;if(TRIAL||!TIER){b.hidden=true;return}const vip=TIER==='sip';b.src='https://lelongbidgroup.com/img/'+(vip?'badge-vip.webp':'badge-premium.webp');b.alt=vip?'VIP Investor Plan member':'Premium member';b.title=b.alt;b.classList.toggle('vip',vip);b.hidden=false}
+function showTierBadge(){const b=G('tierBadge'),a=G('agentBadge'),IMGB='https://lelongbidgroup.com/img/';if(!b)return;if(TRIAL||!TIER){b.hidden=true;if(a)a.hidden=true;return}const vip=TIER==='sip';b.src=IMGB+(vip?'badge-vip.webp':'badge-premium.webp');b.alt=vip?'VIP Investor member':'Premium member';b.title=b.alt;b.classList.toggle('vip',vip);b.hidden=false;
+ if(a){a.hidden=!AGENT;if(AGENT){a.src=IMGB+'badge-specialist.webp';a.alt='Specialist agent';a.title=a.alt}}}   // an agent's own code (access.json agent:1) shows the Specialist badge next to the plan badge
 function start(){if(STARTED)return;STARTED=true;showTierBadge();G('count').textContent=tx('loading');loadListings().then(j=>{// Only Active units and units with a recorded result (Sold / Call Off / Unsold) are shown. A unit whose auction date has passed
 // and has no result is not listed (a result usually appears within a day or two and the unit then comes back under its tab).
 const t0=new Date();t0.setHours(0,0,0,0);
