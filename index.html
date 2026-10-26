@@ -153,7 +153,10 @@ html.trial #cyNote,html.trial #bmvSeg,html.trial #cyBtn,html.trial #cyPanel{disp
 .wa-unit{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;border-radius:12px;background:var(--wa);color:var(--wa-fg);text-decoration:none;font-weight:800;font-size:1.08rem;padding:8px 12px;text-align:center;line-height:1.25}
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.hd h1{min-width:0}
+.hd h1{min-width:0}.hd-title{display:flex;align-items:center;gap:12px;min-width:0}
+/* membership badge (img/badge-premium.webp, img/badge-vip.webp; Nano Banana Pro renders, 26/10/2026): shown once a code opens the page, by the member's TIER */
+.tier-badge{width:60px;height:60px;flex:none;object-fit:contain;filter:drop-shadow(0 3px 8px rgba(0,0,0,.45))}.tier-badge.vip{width:68px;height:68px}
+@media (max-width:640px){.tier-badge{width:48px;height:48px}.tier-badge.vip{width:54px;height:54px}}
 .hd-acts{display:flex;gap:8px;align-items:center;flex:none}
 .theme-btn{min-height:44px;min-width:46px;padding:0 12px;background:var(--surface);color:var(--fg);border-color:var(--line);font-size:1.15rem;line-height:1}
 .share-all{min-height:44px;padding:0 16px;background:var(--surface);color:var(--accent);border-color:var(--accent)}
@@ -279,7 +282,7 @@ body{padding-block-end:100px}
 <p style="font-size:.85rem">Khairul Kar · 010-2449587</p>
 </form></div>
 <div class="wrap">
-<div class="hd"><h1 data-i18n="h1">Auction List</h1><div class="hd-acts"><button class="btn theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Light / dark mode">🌙</button><button class="btn share-all" id="shareAll" type="button" data-i18n="share">Share</button></div></div>
+<div class="hd"><div class="hd-title"><h1 data-i18n="h1">Auction List</h1><img class="tier-badge" id="tierBadge" alt="" width="60" height="60" hidden></div><div class="hd-acts"><button class="btn theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Light / dark mode">🌙</button><button class="btn share-all" id="shareAll" type="button" data-i18n="share">Share</button></div></div>
 <p class="upd" id="upd"></p>
 <div class="trial-bar" id="trialBar" hidden><span data-i18n="trial_msg">You are viewing the free preview. Full details are for premium members.</span><a class="btn" id="trialCta" href="premium/" data-i18n="lock">Unlock Premium RM50 only</a></div>
 <div class="tools">
@@ -1010,7 +1013,8 @@ async function loadListings(){if(TRIAL)return getData(true);
   j.listings=j.listings.concat((hj.listings||[]).filter(o=>o&&o.id&&!ids.has(o.id)));j.vip_days=hj.days||365}catch(x){j.vip_err=true}}   // the member is told under the status buttons
  return j}
 let STARTED=false;
-function start(){if(STARTED)return;STARTED=true;G('count').textContent=tx('loading');loadListings().then(j=>{// Only Active units and units with a recorded result (Sold / Call Off / Unsold) are shown. A unit whose auction date has passed
+function showTierBadge(){const b=G('tierBadge');if(!b)return;if(TRIAL||!TIER){b.hidden=true;return}const vip=TIER==='sip';b.src=IMG+(vip?'badge-vip.webp':'badge-premium.webp');b.alt=vip?'VIP Investor Plan member':'Premium member';b.title=b.alt;b.classList.toggle('vip',vip);b.hidden=false}
+function start(){if(STARTED)return;STARTED=true;showTierBadge();G('count').textContent=tx('loading');loadListings().then(j=>{// Only Active units and units with a recorded result (Sold / Call Off / Unsold) are shown. A unit whose auction date has passed
 // and has no result is not listed (a result usually appears within a day or two and the unit then comes back under its tab).
 const t0=new Date();t0.setHours(0,0,0,0);
 const listed=o=>o.outcome||!(Date.parse(o.auction_date)>0&&Date.parse(o.auction_date)<t0.getTime());
